@@ -3,6 +3,8 @@ import { instanceFirebaseAuth } from './firebase-initialisation'
 import { instanceFirebaseUI } from './firebase-initialisation';
 import 'firebaseui/dist/firebaseui.css';
 /* Ex3 - Point D)i) */
+import { collUtil } from '../services/config';
+import { instanceFirestore } from '../services/firebase-initialisation'
 
 /**
  * Initialiser le widget FirebaseUI et l'injecte dans la page Web
@@ -47,7 +49,10 @@ export function observerConnexion(mutateurEtatUtil) {
  */
 export function creerProfil(id, nom, courriel) {
   /* Ex3 - Point D)ii) */
-  
+  instanceFirestore.collection(collUtil).doc(id).set(
+    {nom: nom, courriel: courriel},
+    {merge: true}
+  );
 }
 
 /**
