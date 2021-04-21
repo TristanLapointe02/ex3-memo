@@ -14,7 +14,8 @@ export async function creer(uid, tache) {
   // date du serveur Firestore.
   tache.date = firebase.firestore.FieldValue.serverTimestamp();
   /* Ex3 - Point E)ii) */
-  //À MODIFIER APRÈS LE COURS DE LUNDI
+  //return instanceFirestore.collection(collUtil).doc(uid).collection(collDossiers).add(dossier);
+  return instanceFirestore.collection(collUtil).doc(uid).collection(collTaches).add(tache);
   
 }
 
@@ -27,15 +28,12 @@ export async function lireTout(uid) {
   /* Ex3 - Point E)iii) */
   
   const taches = [];
-  return instanceFirestore.collection(collUtil).doc(uid).collection(collTaches)
-                .get().then(
-                  reponse => reponse.forEach(
-                    doc => {
-                      taches.push({id: doc.id, ...doc.data()})
-                    }
-                  )
-                ).then(
-                  () => taches
-                );
+  return instanceFirestore.collection(collUtil).doc(uid).collection(collTaches).get().then(
+    reponse => {
+      reponse.forEach(tache => taches.push({...tache.data(), id: tache.id}));
+    }
+  ).then(
+    () => taches
+  );
   
 }
